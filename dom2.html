@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+    <script>
+
+        //Debouncing
+        let timeout;
+        function debouncePopulateDiv(){
+            //call populatdiv after 100ms(delay thecall)
+            clearTimeout(timeout)
+            timeout = setTimeout(()=>{
+                populateDiv();
+            },100)
+        }
+
+        const populateDiv=()=>{
+        const a = document.getElementById('fnumber').value;
+        const b = document.getElementById('lnumber').value;
+        const finalSum = document.getElementById('finalSum')
+        fetch('http://localhost:5000/sum?a='+a+"&b="+b)
+        .then(response => {response.text()
+        .then((ans)=>{
+            document.getElementById('finalSum').innerHTML = ans;
+        })
+    })
+}
+        
+    </script>
+</head>
+<body>
+    <input type="text" placeholder="first Number" id="fnumber" onchange="debouncePopulateDiv()"/>
+    <br>
+    <input type="text" placeholder="last Number" id="lnumber" onchange="debouncePopulateDiv()"/>
+    <br>
+    <button onclick="populateDiv()">Calculate Sum</button>
+    <div id="finalSum"></div>
+    
+
+</body>
+</html>
